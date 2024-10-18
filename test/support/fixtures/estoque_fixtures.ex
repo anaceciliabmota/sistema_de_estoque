@@ -20,4 +20,21 @@ defmodule Project.EstoqueFixtures do
 
     produto
   end
+
+  @doc """
+  Generate a fornecedor.
+  """
+  def fornecedor_fixture(attrs \\ %{}) do
+    {:ok, fornecedor} =
+      attrs
+      |> Enum.into(%{
+        address: "some address",
+        email: "some email",
+        name: "some name",
+        phone: "some phone"
+      })
+      |> Project.Estoque.create_fornecedor()
+
+    fornecedor
+  end
 end

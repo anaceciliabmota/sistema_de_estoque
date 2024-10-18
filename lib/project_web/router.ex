@@ -1,5 +1,6 @@
 defmodule ProjectWeb.Router do
 
+
   # alias ProjectWeb.ProdutoController
 
   use ProjectWeb, :router
@@ -22,6 +23,7 @@ defmodule ProjectWeb.Router do
 
     get "/", PageController, :home
     resources "/produtos", ProdutoController
+    resources "/fornecedores", FornecedorController
 
   end
 

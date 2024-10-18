@@ -3,6 +3,6 @@
   <:subtitle>Use this form to manage produto records in your database.</:subtitle>
 </.header>
 
-<.produto_form changeset={@changeset} action={~p"/produtos/#{@produto}"} />
+<.produto_form changeset={@changeset} action={~p"/produtos/#{@produto}"} fornecedores={@fornecedores} />
 
 <.back navigate={~p"/produtos"}>Back to produtos</.back>

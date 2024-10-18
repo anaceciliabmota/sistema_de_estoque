@@ -62,4 +62,64 @@ defmodule Project.EstoqueTest do
       assert %Ecto.Changeset{} = Estoque.change_produto(produto)
     end
   end
+
+  describe "fornecedores" do
+    alias Project.Estoque.Fornecedor
+
+    import Project.EstoqueFixtures
+
+    @invalid_attrs %{address: nil, email: nil, name: nil, phone: nil}
+
+    test "list_fornecedores/0 returns all fornecedores" do
+      fornecedor = fornecedor_fixture()
+      assert Estoque.list_fornecedores() == [fornecedor]
+    end
+
+    test "get_fornecedor!/1 returns the fornecedor with given id" do
+      fornecedor = fornecedor_fixture()
+      assert Estoque.get_fornecedor!(fornecedor.id) == fornecedor
+    end
+
+    test "create_fornecedor/1 with valid data creates a fornecedor" do
+      valid_attrs = %{address: "some address", email: "some email", name: "some name", phone: "some phone"}
+
+      assert {:ok, %Fornecedor{} = fornecedor} = Estoque.create_fornecedor(valid_attrs)
+      assert fornecedor.address == "some address"
+      assert fornecedor.email == "some email"
+      assert fornecedor.name == "some name"
+      assert fornecedor.phone == "some phone"
+    end
+
+    test "create_fornecedor/1 with invalid data returns error changeset" do
+      assert {:error, %Ecto.Changeset{}} = Estoque.create_fornecedor(@invalid_attrs)
+    end
+
+    test "update_fornecedor/2 with valid data updates the fornecedor" do
+      fornecedor = fornecedor_fixture()
+      update_attrs = %{address: "some updated address", email: "some updated email", name: "some updated name", phone: "some updated phone"}
+
+      assert {:ok, %Fornecedor{} = fornecedor} = Estoque.update_fornecedor(fornecedor, update_attrs)
+      assert fornecedor.address == "some updated address"
+      assert fornecedor.email == "some updated email"
+      assert fornecedor.name == "some updated name"
+      assert fornecedor.phone == "some updated phone"
+    end
+
+    test "update_fornecedor/2 with invalid data returns error changeset" do
+      fornecedor = fornecedor_fixture()
+      assert {:error, %Ecto.Changeset{}} = Estoque.update_fornecedor(fornecedor, @invalid_attrs)
+      assert fornecedor == Estoque.get_fornecedor!(fornecedor.id)
+    end
+
+    test "delete_fornecedor/1 deletes the fornecedor" do
+      fornecedor = fornecedor_fixture()
+      assert {:ok, %Fornecedor{}} = Estoque.delete_fornecedor(fornecedor)
+      assert_raise Ecto.NoResultsError, fn -> Estoque.get_fornecedor!(fornecedor.id) end
+    end
+
+    test "change_fornecedor/1 returns a fornecedor changeset" do
+      fornecedor = fornecedor_fixture()
+      assert %Ecto.Changeset{} = Estoque.change_fornecedor(fornecedor)
+    end
+  end
 end

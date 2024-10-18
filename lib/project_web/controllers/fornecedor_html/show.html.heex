@@ -1,0 +1,18 @@
+<.header>
+  Fornecedor <%= @fornecedor.id %>
+  <:subtitle>This is a fornecedor record from your database.</:subtitle>
+  <:actions>
+    <.link href={~p"/fornecedores/#{@fornecedor}/edit"}>
+      <.button>Edit fornecedor</.button>
+    </.link>
+  </:actions>
+</.header>
+
+<.list>
+  <:item title="Name"><%= @fornecedor.name %></:item>
+  <:item title="Address"><%= @fornecedor.address %></:item>
+  <:item title="Email"><%= @fornecedor.email %></:item>
+  <:item title="Phone"><%= @fornecedor.phone %></:item>
+</.list>
+
+<.back navigate={~p"/fornecedores"}>Back to fornecedores</.back>

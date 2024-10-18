@@ -6,6 +6,12 @@
   <.input field={f[:description]} type="text" label="Description" />
   <.input field={f[:price]} type="number" label="Price" step="any" />
   <.input field={f[:quantity]} type="number" label="Quantity" />
+
+  <.input field={f[:fornecedor_id]}
+    type="select" 
+    label="Fornecedor" 
+    options={@fornecedores} 
+  />
   <:actions>
     <.button>Save Produto</.button>
   </:actions>

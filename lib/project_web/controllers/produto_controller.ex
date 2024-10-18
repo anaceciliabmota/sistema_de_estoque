@@ -11,7 +11,8 @@ defmodule ProjectWeb.ProdutoController do
 
   def new(conn, _params) do
     changeset = Estoque.change_produto(%Produto{})
-    render(conn, :new, changeset: changeset)
+    fornecedores = Estoque.list_fornecedores()
+    render(conn, :new, changeset: changeset, fornecedores: fornecedores)
   end
 
   def create(conn, %{"produto" => produto_params}) do

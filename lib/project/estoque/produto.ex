@@ -8,13 +8,15 @@ defmodule Project.Estoque.Produto do
     field :price, :decimal
     field :quantity, :integer
 
+    belongs_to :fornecedor, Project.Estoque.Fornecedor
+
     timestamps(type: :utc_datetime)
   end
 
   @doc false
   def changeset(produto, attrs) do
     produto
-    |> cast(attrs, [:name, :description, :price, :quantity])
-    |> validate_required([:name, :description, :price, :quantity])
+    |> cast(attrs, [:name, :description, :price, :quantity, :fornecedor_id])
+    |> validate_required([:name, :description, :price, :quantity, :fornecedor_id])
   end
 end

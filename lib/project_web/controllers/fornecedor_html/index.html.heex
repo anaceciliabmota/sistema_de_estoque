@@ -1,0 +1,26 @@
+<.header>
+  Listing Fornecedores
+  <:actions>
+    <.link href={~p"/fornecedores/new"}>
+      <.button>New Fornecedor</.button>
+    </.link>
+  </:actions>
+</.header>
+
+<.table id="fornecedores" rows={@fornecedores} row_click={&JS.navigate(~p"/fornecedores/#{&1}")}>
+  <:col :let={fornecedor} label="Name"><%= fornecedor.name %></:col>
+  <:col :let={fornecedor} label="Address"><%= fornecedor.address %></:col>
+  <:col :let={fornecedor} label="Email"><%= fornecedor.email %></:col>
+  <:col :let={fornecedor} label="Phone"><%= fornecedor.phone %></:col>
+  <:action :let={fornecedor}>
+    <div class="sr-only">
+      <.link navigate={~p"/fornecedores/#{fornecedor}"}>Show</.link>
+    </div>
+    <.link navigate={~p"/fornecedores/#{fornecedor}/edit"}>Edit</.link>
+  </:action>
+  <:action :let={fornecedor}>
+    <.link href={~p"/fornecedores/#{fornecedor}"} method="delete" data-confirm="Are you sure?">
+      Delete
+    </.link>
+  </:action>
+</.table>
