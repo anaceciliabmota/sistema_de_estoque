@@ -6,12 +6,14 @@ defmodule ProjectWeb.ProdutoController do
 
   def index(conn, _params) do
     produtos = Estoque.list_produtos()
+    |> Project.Repo.preload(:fornecedor)
     render(conn, :index, produtos: produtos)
   end
 
   def new(conn, _params) do
     changeset = Estoque.change_produto(%Produto{})
     fornecedores = Estoque.list_fornecedores()
+      |> Enum.map(fn fornecedor -> {fornecedor.name, fornecedor.id} end)
     render(conn, :new, changeset: changeset, fornecedores: fornecedores)
   end
 
@@ -23,12 +25,15 @@ defmodule ProjectWeb.ProdutoController do
         |> redirect(to: ~p"/produtos/#{produto}")
 
       {:error, %Ecto.Changeset{} = changeset} ->
-        render(conn, :new, changeset: changeset)
+        fornecedores = Estoque.list_fornecedores()
+          |> Enum.map(fn fornecedor -> {fornecedor.name, fornecedor.id} end)
+        render(conn, :new, changeset: changeset, fornecedores: fornecedores)
     end
   end
 
   def show(conn, %{"id" => id}) do
     produto = Estoque.get_produto!(id)
+    |> Project.Repo.preload(:fornecedor)
     render(conn, :show, produto: produto)
   end
 

@@ -12,6 +12,7 @@
   <:col :let={produto} label="Description"><%= produto.description %></:col>
   <:col :let={produto} label="Price"><%= produto.price %></:col>
   <:col :let={produto} label="Quantity"><%= produto.quantity %></:col>
+  <:col :let={produto} label="Fornecedor"><%= produto.fornecedor.name %></:col>
   <:action :let={produto}>
     <div class="sr-only">
       <.link navigate={~p"/produtos/#{produto}"}>Show</.link>

@@ -13,6 +13,7 @@
   <:item title="Description"><%= @produto.description %></:item>
   <:item title="Price"><%= @produto.price %></:item>
   <:item title="Quantity"><%= @produto.quantity %></:item>
+  <:item title="Fornecefor"><%= @produto.fornecedor.name %></:item>
 </.list>
 
 <.back navigate={~p"/produtos"}>Back to produtos</.back>
