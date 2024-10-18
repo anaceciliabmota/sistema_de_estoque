@@ -1,0 +1,18 @@
+<.header>
+  Produto <%= @produto.id %>
+  <:subtitle>This is a produto record from your database.</:subtitle>
+  <:actions>
+    <.link href={~p"/produtos/#{@produto}/edit"}>
+      <.button>Edit produto</.button>
+    </.link>
+  </:actions>
+</.header>
+
+<.list>
+  <:item title="Name"><%= @produto.name %></:item>
+  <:item title="Description"><%= @produto.description %></:item>
+  <:item title="Price"><%= @produto.price %></:item>
+  <:item title="Quantity"><%= @produto.quantity %></:item>
+</.list>
+
+<.back navigate={~p"/produtos"}>Back to produtos</.back>
