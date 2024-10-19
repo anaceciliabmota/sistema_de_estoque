@@ -2,7 +2,9 @@ defmodule ProjectWeb.MovimentacaoController do
   use ProjectWeb, :controller
 
   alias Project.Estoque
+  alias Project.Repo
   alias Project.Estoque.Movimentacao
+  alias Project.Estoque.Produto
 
   def index(conn, _params) do
     movimentacoes = Estoque.list_movimentacoes()
@@ -22,10 +24,12 @@ defmodule ProjectWeb.MovimentacaoController do
 
     case Estoque.create_movimentacao(movimentacao_params) do
       {:ok, movimentacao} ->
-        conn
-        |> put_flash(:info, "Movimentacao created successfully.")
-        |> redirect(to: ~p"/movimentacoes/#{movimentacao}")
-
+        case processar_movimentacao(movimentacao) do
+          {:ok, _produto} ->
+            conn
+            |> put_flash(:info, "Movimentação criada com sucesso!")
+            |> redirect(to: ~p"/movimentacoes/#{movimentacao}")
+          end
       {:error, %Ecto.Changeset{} = changeset} ->
         produtos = Estoque.list_produtos()
           |> Enum.map(fn produto -> {produto.name, produto.id} end)
@@ -66,5 +70,17 @@ defmodule ProjectWeb.MovimentacaoController do
     conn
     |> put_flash(:info, "Movimentacao deleted successfully.")
     |> redirect(to: ~p"/movimentacoes")
+  end
+
+  defp processar_movimentacao(%Movimentacao{} = movimentacao) do
+    produto = Repo.get!(Produto, movimentacao.produto_id)
+
+    nova_quantidade =
+      case movimentacao.movement_type do
+        "entrada" -> produto.quantity + movimentacao.quantity
+        "saida" -> produto.quantity - movimentacao.quantity
+      end
+
+      Project.Estoque.update_produto(produto, %{quantity: nova_quantidade})
   end
 end
