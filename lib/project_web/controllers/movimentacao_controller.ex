@@ -15,7 +15,7 @@ defmodule ProjectWeb.MovimentacaoController do
   def new(conn, _params) do
     changeset = Estoque.change_movimentacao(%Movimentacao{})
     produtos = Estoque.list_produtos()
-      |> Enum.map(fn produto -> {produto.description, produto.id} end)
+      |> Enum.map(fn produto -> {produto.name, produto.id} end)
     render(conn, :new, changeset: changeset, produtos: produtos)
   end
 

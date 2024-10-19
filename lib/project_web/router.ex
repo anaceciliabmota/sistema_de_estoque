@@ -19,6 +19,7 @@ defmodule ProjectWeb.Router do
     pipe_through :browser
 
     get "/", PageController, :home
+
     resources "/produtos", ProdutoController
     resources "/fornecedores", FornecedorController
     resources "/movimentacoes", MovimentacaoController

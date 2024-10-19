@@ -40,7 +40,10 @@ defmodule ProjectWeb.ProdutoController do
   def edit(conn, %{"id" => id}) do
     produto = Estoque.get_produto!(id)
     changeset = Estoque.change_produto(produto)
-    render(conn, :edit, produto: produto, changeset: changeset)
+    fornecedores = Estoque.list_fornecedores()
+    |> Enum.map(fn fornecedor -> {fornecedor.name, fornecedor.id} end)
+
+    render(conn, :edit, produto: produto, changeset: changeset, fornecedores: fornecedores)
   end
 
   def update(conn, %{"id" => id, "produto" => produto_params}) do
