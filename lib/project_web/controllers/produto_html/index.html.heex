@@ -13,7 +13,6 @@
 <.table id="produtos" rows={@produtos} row_click={&JS.navigate(~p"/produtos/#{&1}")}>
   <:col :let={produto} label="Nome">
     <%= produto.name %>
-    <!-- Exibe alerta se a quantidade estiver abaixo do mínimo -->
     <%= if produto.quantity < produto.min_quantity do %>
       <span class="text-red-500 font-bold">(Estoque Baixo!)</span>
     <% end %>
