@@ -13,11 +13,13 @@ defmodule ProjectWeb.MovimentacaoController do
   def new(conn, _params) do
     changeset = Estoque.change_movimentacao(%Movimentacao{})
     produtos = Estoque.list_produtos()
-      |> Enum.map(fn produto -> {produto.name, produto.id} end)
+      |> Enum.map(fn produto -> {produto.description, produto.id} end)
     render(conn, :new, changeset: changeset, produtos: produtos)
   end
 
   def create(conn, %{"movimentacao" => movimentacao_params}) do
+    movimentacao_params = Map.put(movimentacao_params, "date", NaiveDateTime.utc_now())
+
     case Estoque.create_movimentacao(movimentacao_params) do
       {:ok, movimentacao} ->
         conn

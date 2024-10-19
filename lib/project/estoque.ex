@@ -2,6 +2,7 @@ defmodule Project.Estoque do
   @moduledoc """
   The Estoque context.
   """
+  import Ecto.Changeset
 
   import Ecto.Query, warn: false
   alias Project.Repo
@@ -244,6 +245,7 @@ defmodule Project.Estoque do
   def create_movimentacao(attrs \\ %{}) do
     %Movimentacao{}
     |> Movimentacao.changeset(attrs)
+    |> put_change(:date, NaiveDateTime.utc_now() |> NaiveDateTime.truncate(:second) |> NaiveDateTime.add(-3 * 60 * 60))
     |> Repo.insert()
   end
 

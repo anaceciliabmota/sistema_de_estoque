@@ -16,7 +16,7 @@ defmodule Project.Estoque.Movimentacao do
   @doc false
   def changeset(movimentacao, attrs) do
     movimentacao
-    |> cast(attrs, [:movement_type, :quantity, :date, :remarks, :produto_id])
-    |> validate_required([:movement_type, :quantity, :date, :remarks, :produto_id])
+    |> cast(attrs, [:movement_type, :quantity, :remarks, :produto_id])
+    |> validate_required([:movement_type, :quantity, :remarks, :produto_id])
   end
 end
