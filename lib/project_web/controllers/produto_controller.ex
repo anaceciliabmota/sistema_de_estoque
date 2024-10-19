@@ -7,6 +7,26 @@ defmodule ProjectWeb.ProdutoController do
   def index(conn, _params) do
     produtos = Estoque.list_produtos()
     |> Project.Repo.preload(:fornecedor)
+
+    produtos_com_alerta = Enum.filter(produtos, fn produto ->
+      produto.quantity < produto.min_quantity
+    end)
+
+    nomes_produtos_baixo_estoque = Enum.map(produtos_com_alerta, fn produto -> produto.name end)
+
+    conn =
+      if produtos_com_alerta != [] do
+        mensagem_alerta = """
+        <strong>Atenção: Os seguintes produtos estão com estoque baixo:</strong>
+        <ul>
+        #{Enum.map(nomes_produtos_baixo_estoque, fn nome -> "<li> - #{nome}</li>" end) |> Enum.join("\n")}
+        </ul>
+        """
+        put_flash(conn, :error, {:safe, mensagem_alerta})
+      else
+        conn
+      end
+
     render(conn, :index, produtos: produtos)
   end
 
