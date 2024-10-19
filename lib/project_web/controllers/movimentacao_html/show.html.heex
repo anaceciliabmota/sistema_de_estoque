@@ -1,0 +1,19 @@
+<.header>
+  Movimentacao <%= @movimentacao.id %>
+  <:subtitle>This is a movimentacao record from your database.</:subtitle>
+  <:actions>
+    <.link href={~p"/movimentacoes/#{@movimentacao}/edit"}>
+      <.button>Edit movimentacao</.button>
+    </.link>
+  </:actions>
+</.header>
+
+<.list>
+  <:item title="Movement type"><%= @movimentacao.movement_type %></:item>
+  <:item title="Quantity"><%= @movimentacao.quantity %></:item>
+  <:item title="Date"><%= @movimentacao.date %></:item>
+  <:item title="Remarks"><%= @movimentacao.remarks %></:item>
+  <:item title="Produto"><%= @movimentacao.produto.name %></:item>
+</.list>
+
+<.back navigate={~p"/movimentacoes"}>Back to movimentacoes</.back>

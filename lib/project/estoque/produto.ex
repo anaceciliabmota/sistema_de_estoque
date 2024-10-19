@@ -9,6 +9,7 @@ defmodule Project.Estoque.Produto do
     field :quantity, :integer
 
     belongs_to :fornecedor, Project.Estoque.Fornecedor
+    has_many :movimentacoes, Project.Estoque.Movimentacao
 
     timestamps(type: :utc_datetime)
   end

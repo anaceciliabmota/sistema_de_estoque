@@ -8,6 +8,8 @@ defmodule Project.Estoque.Fornecedor do
     field :name, :string
     field :phone, :string
 
+    has_many :produtos, Project.Estoque.Produto
+
     timestamps(type: :utc_datetime)
   end
 

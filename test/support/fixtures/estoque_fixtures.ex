@@ -37,4 +37,21 @@ defmodule Project.EstoqueFixtures do
 
     fornecedor
   end
+
+  @doc """
+  Generate a movimentacao.
+  """
+  def movimentacao_fixture(attrs \\ %{}) do
+    {:ok, movimentacao} =
+      attrs
+      |> Enum.into(%{
+        date: ~N[2024-10-18 11:45:00],
+        movement_type: "some movement_type",
+        quantity: 42,
+        remarks: "some remarks"
+      })
+      |> Project.Estoque.create_movimentacao()
+
+    movimentacao
+  end
 end

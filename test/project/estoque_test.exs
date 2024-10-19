@@ -122,4 +122,64 @@ defmodule Project.EstoqueTest do
       assert %Ecto.Changeset{} = Estoque.change_fornecedor(fornecedor)
     end
   end
+
+  describe "movimentacoes" do
+    alias Project.Estoque.Movimentacao
+
+    import Project.EstoqueFixtures
+
+    @invalid_attrs %{date: nil, movement_type: nil, quantity: nil, remarks: nil}
+
+    test "list_movimentacoes/0 returns all movimentacoes" do
+      movimentacao = movimentacao_fixture()
+      assert Estoque.list_movimentacoes() == [movimentacao]
+    end
+
+    test "get_movimentacao!/1 returns the movimentacao with given id" do
+      movimentacao = movimentacao_fixture()
+      assert Estoque.get_movimentacao!(movimentacao.id) == movimentacao
+    end
+
+    test "create_movimentacao/1 with valid data creates a movimentacao" do
+      valid_attrs = %{date: ~N[2024-10-18 11:45:00], movement_type: "some movement_type", quantity: 42, remarks: "some remarks"}
+
+      assert {:ok, %Movimentacao{} = movimentacao} = Estoque.create_movimentacao(valid_attrs)
+      assert movimentacao.date == ~N[2024-10-18 11:45:00]
+      assert movimentacao.movement_type == "some movement_type"
+      assert movimentacao.quantity == 42
+      assert movimentacao.remarks == "some remarks"
+    end
+
+    test "create_movimentacao/1 with invalid data returns error changeset" do
+      assert {:error, %Ecto.Changeset{}} = Estoque.create_movimentacao(@invalid_attrs)
+    end
+
+    test "update_movimentacao/2 with valid data updates the movimentacao" do
+      movimentacao = movimentacao_fixture()
+      update_attrs = %{date: ~N[2024-10-19 11:45:00], movement_type: "some updated movement_type", quantity: 43, remarks: "some updated remarks"}
+
+      assert {:ok, %Movimentacao{} = movimentacao} = Estoque.update_movimentacao(movimentacao, update_attrs)
+      assert movimentacao.date == ~N[2024-10-19 11:45:00]
+      assert movimentacao.movement_type == "some updated movement_type"
+      assert movimentacao.quantity == 43
+      assert movimentacao.remarks == "some updated remarks"
+    end
+
+    test "update_movimentacao/2 with invalid data returns error changeset" do
+      movimentacao = movimentacao_fixture()
+      assert {:error, %Ecto.Changeset{}} = Estoque.update_movimentacao(movimentacao, @invalid_attrs)
+      assert movimentacao == Estoque.get_movimentacao!(movimentacao.id)
+    end
+
+    test "delete_movimentacao/1 deletes the movimentacao" do
+      movimentacao = movimentacao_fixture()
+      assert {:ok, %Movimentacao{}} = Estoque.delete_movimentacao(movimentacao)
+      assert_raise Ecto.NoResultsError, fn -> Estoque.get_movimentacao!(movimentacao.id) end
+    end
+
+    test "change_movimentacao/1 returns a movimentacao changeset" do
+      movimentacao = movimentacao_fixture()
+      assert %Ecto.Changeset{} = Estoque.change_movimentacao(movimentacao)
+    end
+  end
 end

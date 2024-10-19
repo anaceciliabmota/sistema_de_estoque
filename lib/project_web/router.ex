@@ -1,8 +1,5 @@
 defmodule ProjectWeb.Router do
 
-
-  # alias ProjectWeb.ProdutoController
-
   use ProjectWeb, :router
 
   pipeline :browser do
@@ -24,6 +21,7 @@ defmodule ProjectWeb.Router do
     get "/", PageController, :home
     resources "/produtos", ProdutoController
     resources "/fornecedores", FornecedorController
+    resources "/movimentacoes", MovimentacaoController
 
   end
 

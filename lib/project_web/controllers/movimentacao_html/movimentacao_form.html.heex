@@ -1,0 +1,22 @@
+<.simple_form :let={f} for={@changeset} action={@action}>
+  <.error :if={@changeset.action}>
+    Oops, something went wrong! Please check the errors below.
+  </.error>
+  <.input 
+  field={f[:movement_type]} 
+  type="select" 
+  label="Tipo de Movimentação" 
+  options={[{"Entrada", "entrada"}, {"Saída", "saida"}]} 
+  />
+  <.input field={f[:quantity]} type="number" label="Quantity" />
+  <.input field={f[:date]} type="datetime-local" label="Date" />
+  <.input field={f[:remarks]} type="text" label="Remarks" />
+  <.input field={f[:produto_id]}
+    type="select" 
+    label="Produto" 
+    options={@produtos} 
+  />
+  <:actions>
+    <.button>Save Movimentacao</.button>
+  </:actions>
+</.simple_form>

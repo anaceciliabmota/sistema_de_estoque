@@ -1,0 +1,8 @@
+<.header>
+  New Movimentacao
+  <:subtitle>Use this form to manage movimentacao records in your database.</:subtitle>
+</.header>
+
+<.movimentacao_form changeset={@changeset} action={~p"/movimentacoes"} produtos={@produtos} />
+
+<.back navigate={~p"/movimentacoes"}>Back to movimentacoes</.back>
