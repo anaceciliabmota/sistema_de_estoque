@@ -247,52 +247,83 @@ defmodule Project.Estoque do
     |> Movimentacao.changeset(attrs)
     |> put_change(:date, NaiveDateTime.utc_now() |> NaiveDateTime.truncate(:second) |> NaiveDateTime.add(-3 * 60 * 60))
     |> Repo.insert()
+    |> case do
+      {:ok, movimentacao} ->
+        movimentacao = Repo.preload(movimentacao, :produto)
+        processar_movimentacao(movimentacao)
+        {:ok, movimentacao}
+      error ->
+        error
+    end
   end
 
+
   @doc """
-  Updates a movimentacao.
-
-  ## Examples
-
-      iex> update_movimentacao(movimentacao, %{field: new_value})
-      {:ok, %Movimentacao{}}
-
-      iex> update_movimentacao(movimentacao, %{field: bad_value})
-      {:error, %Ecto.Changeset{}}
-
+  Atualiza uma movimentação e ajusta a quantidade do produto.
   """
   def update_movimentacao(%Movimentacao{} = movimentacao, attrs) do
-    movimentacao
-    |> Movimentacao.changeset(attrs)
-    |> Repo.update()
+    Repo.transaction(fn ->
+      reverter_movimentacao(movimentacao)
+
+      movimentacao
+      |> Movimentacao.changeset(attrs)
+      |> Repo.update()
+      |> case do
+        {:ok, movimentacao_atualizada} ->
+          movimentacao_atualizada = Repo.preload(movimentacao_atualizada, :produto)
+          processar_movimentacao(movimentacao_atualizada)
+        error ->
+          Repo.rollback(error)
+      end
+    end)
   end
 
   @doc """
-  Deletes a movimentacao.
-
-  ## Examples
-
-      iex> delete_movimentacao(movimentacao)
-      {:ok, %Movimentacao{}}
-
-      iex> delete_movimentacao(movimentacao)
-      {:error, %Ecto.Changeset{}}
-
+  Deleta uma movimentação e ajusta a quantidade do produto.
   """
   def delete_movimentacao(%Movimentacao{} = movimentacao) do
-    Repo.delete(movimentacao)
+    Repo.transaction(fn ->
+      reverter_movimentacao(movimentacao)
+      Repo.delete(movimentacao)
+    end)
   end
 
   @doc """
-  Returns an `%Ecto.Changeset{}` for tracking movimentacao changes.
-
-  ## Examples
-
-      iex> change_movimentacao(movimentacao)
-      %Ecto.Changeset{data: %Movimentacao{}}
-
+  Retorna um `%Ecto.Changeset{}` para rastrear mudanças na movimentação.
   """
   def change_movimentacao(%Movimentacao{} = movimentacao, attrs \\ %{}) do
     Movimentacao.changeset(movimentacao, attrs)
   end
+
+  defp processar_movimentacao(%Movimentacao{} = movimentacao) do
+    produto = movimentacao.produto
+
+    nova_quantidade =
+      case movimentacao.movement_type do
+        "entrada" -> produto.quantity + movimentacao.quantity
+        "saida" -> produto.quantity - movimentacao.quantity
+      end
+
+    produto
+    |> Produto.changeset(%{quantity: nova_quantidade})
+    |> Repo.update!()
+
+    movimentacao
+  end
+
+  # Função para reverter o efeito de uma movimentação (ao editar ou deletar)
+  defp reverter_movimentacao(%Movimentacao{} = movimentacao) do
+    produto = Repo.get!(Produto, movimentacao.produto_id)
+
+    quantidade_revertida =
+      case movimentacao.movement_type do
+        "entrada" -> produto.quantity - movimentacao.quantity
+        "saida" -> produto.quantity + movimentacao.quantity
+      end
+
+    produto
+    |> Produto.changeset(%{quantity: quantidade_revertida})
+    |> Repo.update!()
+  end
+
 end

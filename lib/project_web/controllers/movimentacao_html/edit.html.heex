@@ -1,8 +1,8 @@
 <.header>
-  Edit Movimentacao <%= @movimentacao.id %>
-  <:subtitle>Use this form to manage movimentacao records in your database.</:subtitle>
+  Editar Movimentação <%= @movimentacao.id %>
+  <:subtitle>Use esse formulário para editar a Movimentação desejada.</:subtitle>
 </.header>
 
 <.movimentacao_form changeset={@changeset} action={~p"/movimentacoes/#{@movimentacao}"} produtos={@produtos} />
 
-<.back navigate={~p"/movimentacoes"}>Back to movimentacoes</.back>
+<.back navigate={~p"/movimentacoes"}>Voltar para Movimentações</.back>

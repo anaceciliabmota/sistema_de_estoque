@@ -1,26 +1,32 @@
 <.header>
-  Listing Fornecedores
+  Fornecedores Cadastrados:
   <:actions>
+    <.link href={~p"/"}>
+      <.button>Voltar ao Menu Principal</.button>
+    </.link>
     <.link href={~p"/fornecedores/new"}>
-      <.button>New Fornecedor</.button>
+      <.button>Cadastrar Fornecedor</.button>
     </.link>
   </:actions>
 </.header>
 
 <.table id="fornecedores" rows={@fornecedores} row_click={&JS.navigate(~p"/fornecedores/#{&1}")}>
-  <:col :let={fornecedor} label="Name"><%= fornecedor.name %></:col>
-  <:col :let={fornecedor} label="Address"><%= fornecedor.address %></:col>
+  <:col :let={fornecedor} label="Nome"><%= fornecedor.name %></:col>
+  <:col :let={fornecedor} label="Endereço"><%= fornecedor.address %></:col>
   <:col :let={fornecedor} label="Email"><%= fornecedor.email %></:col>
-  <:col :let={fornecedor} label="Phone"><%= fornecedor.phone %></:col>
+  <:col :let={fornecedor} label="Telefone"><%= fornecedor.phone %></:col>
   <:action :let={fornecedor}>
     <div class="sr-only">
       <.link navigate={~p"/fornecedores/#{fornecedor}"}>Show</.link>
     </div>
-    <.link navigate={~p"/fornecedores/#{fornecedor}/edit"}>Edit</.link>
+    <.link navigate={~p"/fornecedores/#{fornecedor}/edit"}>Editar</.link>
   </:action>
   <:action :let={fornecedor}>
-    <.link href={~p"/fornecedores/#{fornecedor}"} method="delete" data-confirm="Are you sure?">
-      Delete
+    <.link href={~p"/fornecedores/#{fornecedor}"} method="delete" data-confirm="Deseja deletar esse produto?">
+      Deletar
     </.link>
   </:action>
 </.table>
+
+
+<.back navigate={~p"/"}>Voltar ao Menu</.back>

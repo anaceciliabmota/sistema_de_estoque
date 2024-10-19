@@ -1,27 +1,27 @@
 <.header>
-  Listing Movimentacoes
+  Movimentações Cadastradas: 
   <:actions>
+  <.link href={~p"/"}>
+      <.button>Voltar ao Menu Principal</.button>
+    </.link>
     <.link href={~p"/movimentacoes/new"}>
-      <.button>New Movimentacao</.button>
+      <.button>Cadastrar Movimentação</.button>
     </.link>
   </:actions>
 </.header>
 
 <.table id="movimentacoes" rows={@movimentacoes} row_click={&JS.navigate(~p"/movimentacoes/#{&1}")}>
-  <:col :let={movimentacao} label="Movement type"><%= movimentacao.movement_type %></:col>
-  <:col :let={movimentacao} label="Quantity"><%= movimentacao.quantity %></:col>
-  <:col :let={movimentacao} label="Date"><%= movimentacao.date %></:col>
-  <:col :let={movimentacao} label="Remarks"><%= movimentacao.remarks %></:col>
+  <:col :let={movimentacao} label="Entrada / Saída"><%= movimentacao.movement_type %></:col>
+  <:col :let={movimentacao} label="Quanitdade"><%= movimentacao.quantity %></:col>
+  <:col :let={movimentacao} label="Data"><%= movimentacao.date %></:col>
+  <:col :let={movimentacao} label="Descrição"><%= movimentacao.remarks %></:col>
   <:col :let={movimentacao} label="Produto"><%= movimentacao.produto.name %></:col>
   <:action :let={movimentacao}>
     <div class="sr-only">
       <.link navigate={~p"/movimentacoes/#{movimentacao}"}>Show</.link>
     </div>
-    <.link navigate={~p"/movimentacoes/#{movimentacao}/edit"}>Edit</.link>
-  </:action>
-  <:action :let={movimentacao}>
-    <.link href={~p"/movimentacoes/#{movimentacao}"} method="delete" data-confirm="Are you sure?">
-      Delete
-    </.link>
+    <.link navigate={~p"/movimentacoes/#{movimentacao}/edit"}>Editar</.link>
   </:action>
 </.table>
+
+<.back navigate={~p"/"}>Voltar ao Menu</.back>

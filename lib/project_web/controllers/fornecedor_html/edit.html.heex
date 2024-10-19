@@ -1,8 +1,8 @@
 <.header>
-  Edit Fornecedor <%= @fornecedor.id %>
-  <:subtitle>Use this form to manage fornecedor records in your database.</:subtitle>
+  Editar Fornecedor <%= @fornecedor.id %>
+  <:subtitle>Use esse formulário para editar o Fornecedor desejada.</:subtitle>
 </.header>
 
 <.fornecedor_form changeset={@changeset} action={~p"/fornecedores/#{@fornecedor}"} />
 
-<.back navigate={~p"/fornecedores"}>Back to fornecedores</.back>
+<.back navigate={~p"/fornecedores"}>Voltar para Fornecedores</.back>

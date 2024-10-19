@@ -9,14 +9,14 @@
   options={[{"Entrada", "entrada"}, {"Saída", "saida"}]} 
   />
 
-  <.input field={f[:quantity]} type="number" label="Quantity" />
-  <.input field={f[:remarks]} type="text" label="Remarks" />
+  <.input field={f[:quantity]} type="number" label="Quantidade" />
+  <.input field={f[:remarks]} type="text" label="Descrição" />
   <.input field={f[:produto_id]}
     type="select" 
     label="Produto" 
     options={@produtos} 
   />
   <:actions>
-    <.button>Save Movimentacao</.button>
+    <.button>Salvar Movimentacao</.button>
   </:actions>
 </.simple_form>
