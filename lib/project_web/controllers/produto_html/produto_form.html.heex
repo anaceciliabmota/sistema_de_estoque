@@ -4,7 +4,7 @@
   </.error>
   <.input field={f[:name]} type="text" label="Nome" />
   <.input field={f[:description]} type="text" label="Descrição" />
-  <.input field={f[:price]} type="number" label="Preço" step="any" />
+  <.input field={f[:price]} type="number" label="Preço" step="any" min="0" />
 
   <.input field={f[:fornecedor_id]}
     type="select" 
