@@ -26,9 +26,17 @@ defmodule ProjectWeb.FornecedorController do
     end
   end
 
-  def show(conn, %{"id" => id}) do
+  def show(conn, %{"id" => id} = params) do
     fornecedor = Estoque.get_fornecedor!(id)
-    render(conn, :show, fornecedor: fornecedor)
+
+    source = Map.get(params, "source")
+
+    if source == "estoque_baixo" do
+      render(conn, :show_from_estoque, fornecedor: fornecedor)
+    else
+      render(conn, :show, fornecedor: fornecedor)
+    end
+
   end
 
   def edit(conn, %{"id" => id}) do

@@ -9,11 +9,11 @@
 </.header>
 
 <.list>
-  <:item title="Name"><%= @produto.name %></:item>
-  <:item title="Description"><%= @produto.description %></:item>
-  <:item title="Price"><%= @produto.price %></:item>
-  <:item title="Quantity"><%= @produto.quantity %></:item>
-  <:item title="Fornecedor"><%= @produto.fornecedor.name %></:item>
+  <:item title="Nome"><%= @produto.name %></:item>
+  <:item title="Descrição"><%= @produto.description %></:item>
+  <:item title="Preço"><%= @produto.price %></:item>
+  <:item title="Quantidade"><%= @produto.quantity %></:item>
+  <:item title="Fornecedores"><%= @produto.fornecedor.name %></:item>
 </.list>
 
-<.back navigate={~p"/produtos"}>Back to produtos</.back>
+<.back navigate={~p"/produtos"}>Voltar para produtos</.back>

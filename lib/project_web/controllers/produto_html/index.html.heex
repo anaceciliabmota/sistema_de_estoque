@@ -14,13 +14,19 @@
   <:col :let={produto} label="Nome">
     <%= produto.name %>
     <%= if produto.quantity < produto.min_quantity do %>
-      <span class="text-red-500 font-bold">(Estoque Baixo!)</span>
+      <span class="text-red-500 font-bold">(Estoque Baixo!<!-- <.link href={~p"/fornecedores/#{produto.fornecedor_id}?source=estoque_baixo"} class="text-red-500 underline">Ver Fornecedor</.link>-->)</span>
     <% end %>
   </:col>
   <:col :let={produto} label="Descrição"><%= produto.description %></:col>
   <:col :let={produto} label="Preço"><%= produto.price %></:col>
   <:col :let={produto} label="Quantidade"><%= produto.quantity %></:col>
-  <:col :let={produto} label="Fornecedor"><%= produto.fornecedor.name %></:col>
+  <:col :let={produto} label="Fornecedor">
+    <.link 
+      href={~p"/fornecedores/#{produto.fornecedor_id}?source=estoque_baixo"} 
+      class="text-black underline ml-2">
+      <%= produto.fornecedor.name %>
+    </.link>
+  </:col>
   <:action :let={produto}>
     <div class="sr-only">
       <.link navigate={~p"/produtos/#{produto}"}>Show</.link>

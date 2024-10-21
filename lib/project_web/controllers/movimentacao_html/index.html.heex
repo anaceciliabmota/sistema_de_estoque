@@ -12,8 +12,10 @@
 
 <.table id="movimentacoes" rows={@movimentacoes} row_click={&JS.navigate(~p"/movimentacoes/#{&1}")}>
   <:col :let={movimentacao} label="Entrada / Saída"><%= movimentacao.movement_type %></:col>
-  <:col :let={movimentacao} label="Quanitdade"><%= movimentacao.quantity %></:col>
-  <:col :let={movimentacao} label="Data"><%= movimentacao.date %></:col>
+  <:col :let={movimentacao} label="Quantidade"><%= movimentacao.quantity %></:col>
+  <:col :let={movimentacao} label="Data">
+    <%= "#{movimentacao.date.day}/#{movimentacao.date.month}/#{movimentacao.date.year}" %>
+  </:col>
   <:col :let={movimentacao} label="Descrição"><%= movimentacao.remarks %></:col>
   <:col :let={movimentacao} label="Produto"><%= movimentacao.produto.name %></:col>
   <:action :let={movimentacao}>
