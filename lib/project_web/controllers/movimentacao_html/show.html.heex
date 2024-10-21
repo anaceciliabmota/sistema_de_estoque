@@ -1,9 +1,9 @@
 <.header>
-  Movimentacao <%= @movimentacao.id %>
-  <:subtitle>Essa é uma movimentação cadastrada no seu banco de dados.</:subtitle>
+  Movimentação: <%= @movimentacao.name %>
+  <:subtitle>Essa é uma Movimentação cadastrada no seu banco de dados.</:subtitle>
   <:actions>
     <.link href={~p"/movimentações/#{@movimentacao}/edit"}>
-      <.button>Edit movimentação</.button>
+      <.button>Editar Movimentação</.button>
     </.link>
   </:actions>
 </.header>
@@ -18,4 +18,4 @@
   <:item title="Produto"><%= @movimentacao.produto.name %></:item>
 </.list>
 
-<.back navigate={~p"/movimentacoes"}>Back to movimentacoes</.back>
+<.back navigate={~p"/movimentacoes"}>Voltar para Movimentações</.back>

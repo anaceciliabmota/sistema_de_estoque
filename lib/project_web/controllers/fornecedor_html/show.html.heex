@@ -1,18 +1,18 @@
 <.header>
-  Fornecedor <%= @fornecedor.name %>
-  <:subtitle>Esse é um fornecedor cadastrado no seu banco de dados.</:subtitle>
+  Fornecedor: <%= @fornecedor.name %>
+  <:subtitle>Esse é um Fornecedor cadastrado no seu banco de dados.</:subtitle>
   <:actions>
     <.link href={~p"/fornecedores/#{@fornecedor}/edit"}>
-      <.button>Edit fornecedor</.button>
+      <.button>Editar Fornecedor</.button>
     </.link>
   </:actions>
 </.header>
 
 <.list>
-  <:item title="Name"><%= @fornecedor.name %></:item>
-  <:item title="Address"><%= @fornecedor.address %></:item>
+  <:item title="Nome"><%= @fornecedor.name %></:item>
+  <:item title="Endereço"><%= @fornecedor.address %></:item>
   <:item title="Email"><%= @fornecedor.email %></:item>
-  <:item title="Phone"><%= @fornecedor.phone %></:item>
+  <:item title="Telefone"><%= @fornecedor.phone %></:item>
 </.list>
 
-<.back navigate={~p"/fornecedores"}>Back to fornecedores</.back>
+<.back navigate={~p"/fornecedores"}>Voltar para Fornecedores</.back>

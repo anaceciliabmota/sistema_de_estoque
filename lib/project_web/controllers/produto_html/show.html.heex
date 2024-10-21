@@ -1,9 +1,9 @@
 <.header>
-  Produto <%= @produto.id %>
-  <:subtitle>This is a produto record from your database.</:subtitle>
+  Produto: <%= @produto.name %>
+  <:subtitle>Esse é um Produto cadastrado no seu banco de dados.</:subtitle>
   <:actions>
     <.link href={~p"/produtos/#{@produto}/edit"}>
-      <.button>Edit produto</.button>
+      <.button>Editar Produto</.button>
     </.link>
   </:actions>
 </.header>
