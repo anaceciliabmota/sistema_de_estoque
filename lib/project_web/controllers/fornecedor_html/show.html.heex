@@ -1,6 +1,6 @@
 <.header>
-  Fornecedor <%= @fornecedor.id %>
-  <:subtitle>This is a fornecedor record from your database.</:subtitle>
+  Fornecedor <%= @fornecedor.name %>
+  <:subtitle>Esse é um fornecedor cadastrado no seu banco de dados.</:subtitle>
   <:actions>
     <.link href={~p"/fornecedores/#{@fornecedor}/edit"}>
       <.button>Edit fornecedor</.button>
