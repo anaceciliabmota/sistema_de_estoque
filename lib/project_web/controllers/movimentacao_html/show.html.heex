@@ -1,8 +1,8 @@
 <.header>
-  Movimentação: <%= @movimentacao.name %>
+  Movimentação: <%= @movimentacao.produto.name %>
   <:subtitle>Essa é uma Movimentação cadastrada no seu banco de dados.</:subtitle>
   <:actions>
-    <.link href={~p"/movimentações/#{@movimentacao}/edit"}>
+    <.link href={~p"/movimentacoes/#{@movimentacao}/edit"}>
       <.button>Editar Movimentação</.button>
     </.link>
   </:actions>

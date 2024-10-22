@@ -19,18 +19,31 @@ defmodule ProjectWeb.MovimentacaoController do
   end
 
   def create(conn, %{"movimentacao" => movimentacao_params}) do
-    movimentacao_params = Map.put(movimentacao_params, "date", NaiveDateTime.utc_now())
+    produto_id = movimentacao_params["produto_id"]
+    quantidade_movimentacao = String.to_integer(movimentacao_params["quantity"])
+    movimento_tipo = movimentacao_params["movement_type"]
 
-    case Estoque.create_movimentacao(movimentacao_params) do
-      {:ok, movimentacao} ->
-        conn
-        |> put_flash(:info, "Movimentação criada com sucesso!")
-        |> redirect(to: ~p"/movimentacoes/#{movimentacao}")
+    produto = Estoque.get_produto!(produto_id)
 
-      {:error, %Ecto.Changeset{} = changeset} ->
-        produtos = Estoque.list_produtos()
-          |> Enum.map(fn produto -> {produto.name, produto.id} end)
-        render(conn, :new, changeset: changeset, produtos: produtos)
+    if movimento_tipo == "saida" and produto.quantity < quantidade_movimentacao do
+      conn
+      |> put_flash(:error, "Erro: Não há estoque suficiente para esta movimentação!")
+      |> redirect(to: ~p"/movimentacoes/new")
+    else
+      #verificação passou
+      movimentacao_params = Map.put(movimentacao_params, "date", NaiveDateTime.utc_now())
+
+      case Estoque.create_movimentacao(movimentacao_params) do
+        {:ok, movimentacao} ->
+          conn
+          |> put_flash(:info, "Movimentação criada com sucesso!")
+          |> redirect(to: ~p"/movimentacoes/#{movimentacao}")
+
+        {:error, %Ecto.Changeset{} = changeset} ->
+          produtos = Estoque.list_produtos()
+            |> Enum.map(fn produto -> {produto.name, produto.id} end)
+          render(conn, :new, changeset: changeset, produtos: produtos)
+      end
     end
   end
 
@@ -51,16 +64,46 @@ defmodule ProjectWeb.MovimentacaoController do
   end
 
   def update(conn, %{"id" => id, "movimentacao" => movimentacao_params}) do
-    movimentacao = Estoque.get_movimentacao!(id)
+    movimentacao_antiga = Estoque.get_movimentacao!(id)
+    produto = Estoque.get_produto!(movimentacao_antiga.produto_id)
 
-    case Estoque.update_movimentacao(movimentacao, movimentacao_params) do
-      {:ok, movimentacao} ->
-        conn
-        |> put_flash(:info, "Movimentação atualizada com sucesso.")
-        |> redirect(to: ~p"/movimentacoes/#{movimentacao}")
+    quantidade_antiga =
+      case movimentacao_antiga.movement_type do
+        "entrada" -> produto.quantity - movimentacao_antiga.quantity
+        "saida" -> produto.quantity + movimentacao_antiga.quantity
+      end
 
-      {:error, %Ecto.Changeset{} = changeset} ->
-        render(conn, :edit, movimentacao: movimentacao, changeset: changeset)
+    quantidade_nova = String.to_integer(movimentacao_params["quantity"])
+    movimento_tipo_novo = movimentacao_params["movement_type"]
+
+    quantidade_ajustada =
+      case movimento_tipo_novo do
+        "entrada" -> quantidade_antiga + quantidade_nova
+        "saida" -> quantidade_antiga - quantidade_nova
+      end
+
+    #Tratamento de erro: Verificar se a movimentação resultará em estoque negativo
+    if quantidade_ajustada < 0 do
+      #Caso o estoque fique negativo, impedir a atualização
+      conn
+      |> put_flash(:error, "Edição proibída: Não havia estoque suficiente para esta edição de movimentação! Verifique a quantidade.")
+      |> redirect(to: ~p"/movimentacoes/#{movimentacao_antiga}/edit")
+    else
+      #Caso o estoque seja suficiente, permitir a atualização
+      case Estoque.update_movimentacao(movimentacao_antiga, movimentacao_params) do
+        {:ok, movimentacao} ->
+          produto
+          |> Estoque.update_produto(%{quantity: quantidade_ajustada})
+
+          conn
+          |> put_flash(:info, "Movimentação atualizada com sucesso.")
+          |> redirect(to: ~p"/movimentacoes/#{movimentacao}")
+
+        {:error, %Ecto.Changeset{} = changeset} ->
+          produtos = Estoque.list_produtos()
+            |> Enum.map(fn produto -> {produto.name, produto.id} end)
+          render(conn, :edit, movimentacao: movimentacao_antiga, changeset: changeset, produtos: produtos)
+      end
     end
   end
 
@@ -72,4 +115,5 @@ defmodule ProjectWeb.MovimentacaoController do
     |> put_flash(:info, "Movimentação excluída com sucesso.")
     |> redirect(to: ~p"/movimentacoes")
   end
+
 end
