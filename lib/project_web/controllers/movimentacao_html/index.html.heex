@@ -19,7 +19,8 @@
   <:col :let={movimentacao} label="Descrição"><%= movimentacao.remarks %></:col>
   <:col :let={movimentacao} label="Produto">
     <.link 
-      href={~p"/produtos/#{movimentacao.produto_id}?source=estoque_baixo"}>
+      href={~p"/produtos/#{movimentacao.produto_id}?source=estoque_baixo"}
+      class={"text-black hover:text-neutral-700 font-medium ml-2"}>
       <%= movimentacao.produto.name %>
     </.link>
   </:col>
