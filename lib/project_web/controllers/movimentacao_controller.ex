@@ -25,16 +25,28 @@ defmodule ProjectWeb.MovimentacaoController do
 
     produto = Estoque.get_produto!(produto_id)
 
-    if movimento_tipo == "saida" and produto.quantity < quantidade_movimentacao do
+    # Cálculo da nova quantidade de estoque com base no tipo de movimentação
+    quantidade_ajustada =
+      case movimento_tipo do
+        "entrada" -> produto.quantity + quantidade_movimentacao
+        "saida" -> produto.quantity - quantidade_movimentacao
+      end
+
+    # Verificar se a movimentação resultará em estoque negativo
+    if quantidade_ajustada < 0 do
       conn
       |> put_flash(:error, "Erro: Não há estoque suficiente para esta movimentação!")
       |> redirect(to: ~p"/movimentacoes/new")
     else
-      #verificação passou
+      # A verificação de estoque passou, permitir criação
       movimentacao_params = Map.put(movimentacao_params, "date", NaiveDateTime.utc_now())
 
       case Estoque.create_movimentacao(movimentacao_params) do
         {:ok, movimentacao} ->
+          # Atualizar o estoque do produto
+          produto
+          |> Estoque.update_produto(%{quantity: quantidade_ajustada})
+
           conn
           |> put_flash(:info, "Movimentação criada com sucesso!")
           |> redirect(to: ~p"/movimentacoes/#{movimentacao}")
@@ -46,6 +58,7 @@ defmodule ProjectWeb.MovimentacaoController do
       end
     end
   end
+
 
   def show(conn, %{"id" => id}) do
     movimentacao = Estoque.get_movimentacao!(id)
