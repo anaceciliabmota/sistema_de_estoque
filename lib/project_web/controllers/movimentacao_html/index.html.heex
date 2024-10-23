@@ -24,6 +24,7 @@
       <%= movimentacao.produto.name %>
     </.link>
   </:col>
+  <:col :let={movimentacao} label="Total (R$)"><%= movimentacao.total_price %></:col>
   <:action :let={movimentacao}>
     <div class="sr-only">
       <.link navigate={~p"/movimentacoes/#{movimentacao}"}>Show</.link>

@@ -16,6 +16,7 @@
   </:item>
   <:item title="Detalhamento"><%= @movimentacao.remarks %></:item>
   <:item title="Produto"><%= @movimentacao.produto.name %></:item>
+  <:item title="Total (R$)"><%= @movimentacao.total_price %></:item>
 </.list>
 
 <.back navigate={~p"/movimentacoes"}>Voltar para Movimentações</.back>
