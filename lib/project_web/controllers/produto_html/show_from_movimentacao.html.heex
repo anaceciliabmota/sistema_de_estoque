@@ -1,0 +1,19 @@
+<.header>
+  Produto: <%= @produto.name %>
+  <:subtitle>Esse é um Produto cadastrado no seu banco de dados.</:subtitle>
+  <:actions>
+    <.link href={~p"/produtos/#{@produto}/edit"}>
+      <.button>Editar Produto</.button>
+    </.link>
+  </:actions>
+</.header>
+
+<.list>
+  <:item title="Nome"><%= @produto.name %></:item>
+  <:item title="Descrição"><%= @produto.description %></:item>
+  <:item title="Preço"><%= @produto.price %></:item>
+  <:item title="Quantidade"><%= @produto.quantity %></:item>
+  <:item title="Fornecedores"><%= @produto.fornecedor.name %></:item>
+</.list>
+
+<.back navigate={~p"/movimentacoes"}>Voltar para Movimentações</.back>

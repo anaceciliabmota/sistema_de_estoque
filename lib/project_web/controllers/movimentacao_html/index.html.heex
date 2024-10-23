@@ -17,7 +17,12 @@
     <%= "#{movimentacao.date.day}/#{movimentacao.date.month}/#{movimentacao.date.year}" %>
   </:col>
   <:col :let={movimentacao} label="Descrição"><%= movimentacao.remarks %></:col>
-  <:col :let={movimentacao} label="Produto"><%= movimentacao.produto.name %></:col>
+  <:col :let={movimentacao} label="Produto">
+    <.link 
+      href={~p"/produtos/#{movimentacao.produto_id}?source=estoque_baixo"}>
+      <%= movimentacao.produto.name %>
+    </.link>
+  </:col>
   <:action :let={movimentacao}>
     <div class="sr-only">
       <.link navigate={~p"/movimentacoes/#{movimentacao}"}>Show</.link>

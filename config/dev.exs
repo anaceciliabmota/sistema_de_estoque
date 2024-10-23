@@ -3,7 +3,7 @@ import Config
 # Configure your database
 config :project, Project.Repo,
   username: "postgres",
-  password: "postgres",
+  password: "050923",
   hostname: "localhost",
   database: "project_dev",
   stacktrace: true,

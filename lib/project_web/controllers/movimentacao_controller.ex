@@ -60,10 +60,17 @@ defmodule ProjectWeb.MovimentacaoController do
   end
 
 
-  def show(conn, %{"id" => id}) do
+  def show(conn, %{"id" => id} = params) do
     movimentacao = Estoque.get_movimentacao!(id)
       |> Repo.preload(:produto)
-    render(conn, :show, movimentacao: movimentacao)
+
+    source = Map.get(params, "source")
+
+    if source == "estoque_baixo" do
+      render(conn, :show_from_movimentacao, movimentacao: movimentacao)
+    else
+      render(conn, :show, movimentacao: movimentacao)
+    end
   end
 
   def edit(conn, %{"id" => id}) do
