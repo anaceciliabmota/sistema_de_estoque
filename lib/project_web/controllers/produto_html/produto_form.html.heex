@@ -5,7 +5,7 @@
   <.input field={f[:name]} type="text" label="Nome" placeholder="Digite o nome do produto" />
   <.input field={f[:description]} type="text" label="Descrição" placeholder="Digite a descrição do produto" />
   <.input field={f[:price]} type="number" label="Preço" placeholder="Digite o preço do produto" step="any" min="0" />
-
+  <.input field={f[:min_quantity]} type="number" label="Quantidade mínima" placeholder="Digite a quantidade mínima do estoque" step="any" min="0" />
   <.input field={f[:fornecedor_id]}
     type="select" 
     label="Fornecedor" 
