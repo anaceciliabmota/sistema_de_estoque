@@ -1,6 +1,6 @@
 <.simple_form :let={f} for={@changeset} action={@action}>
   <.error :if={@changeset.action}>
-    Oops, something went wrong! Please check the errors below.
+    Algo deu errado, por favor cheque os erros abaixo.
   </.error>
   <.input field={f[:name]} type="text" label="Nome" placeholder="Digite seu nome e sobrenome" />
   <.input field={f[:address]} type="text" label="Endereço" placeholder="Digite seu endereço" />
