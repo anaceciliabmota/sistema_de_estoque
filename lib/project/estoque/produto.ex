@@ -22,6 +22,8 @@ defmodule Project.Estoque.Produto do
     |> validate_required([:name, :description, :price, :fornecedor_id])
     |> put_default_quantity()
     |> validate_min_quantity()
+    |> normalize_name()
+    |> unique_constraint(:name, name: :unique_produto_name, message: "Já existe um produto com esse nome")
   end
 
   # Garante que o campo 'quantity' tenha um valor padrão de 0, se não for definido
@@ -35,5 +37,17 @@ defmodule Project.Estoque.Produto do
   # Validação para garantir que a quantidade mínima seja maior que zero
   defp validate_min_quantity(changeset) do
     validate_number(changeset, :min_quantity, greater_than_or_equal_to: 0)
+  end
+
+  defp normalize_name(changeset) do
+    update_change(changeset, :name, &capitalize_name/1)
+  end
+
+  defp capitalize_name(name) do
+    name
+    |> String.downcase()
+    |> String.split(" ")
+    |> Enum.map(&String.capitalize/1)
+    |> Enum.join(" ")
   end
 end

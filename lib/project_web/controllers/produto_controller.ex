@@ -41,15 +41,24 @@ defmodule ProjectWeb.ProdutoController do
     case Estoque.create_produto(produto_params) do
       {:ok, produto} ->
         conn
-        |> put_flash(:info, "Produto created successfully.")
+        |> put_flash(:info, "Produto criado com sucesso.")
         |> redirect(to: ~p"/produtos/#{produto}")
 
       {:error, %Ecto.Changeset{} = changeset} ->
         fornecedores = Estoque.list_fornecedores()
           |> Enum.map(fn fornecedor -> {fornecedor.name, fornecedor.id} end)
-        render(conn, :new, changeset: changeset, fornecedores: fornecedores)
+
+        if changeset.errors[:name] do
+          conn
+          |> put_flash(:error, "Erro: Já existe um produto com esse nome. Escolha outro nome.")
+          |> render(:new, changeset: changeset, fornecedores: fornecedores)
+        else
+          render(conn, :new, changeset: changeset, fornecedores: fornecedores)
+        end
     end
   end
+
+
 
   def show(conn, %{"id" => id} = params) do
     produto = Estoque.get_produto!(id)
