@@ -2,10 +2,10 @@
   <.error :if={@changeset.action}>
     Oops, something went wrong! Please check the errors below.
   </.error>
-  <.input field={f[:name]} type="text" label="Nome" />
-  <.input field={f[:address]} type="text" label="Endereço" />
-  <.input field={f[:email]} type="text" label="Email" />
-  <.input field={f[:phone]} type="text" label="Telefone" />
+  <.input field={f[:name]} type="text" label="Nome" placeholder="Digite seu nome e sobrenome" />
+  <.input field={f[:address]} type="text" label="Endereço" placeholder="Digite seu endereço" />
+  <.input field={f[:email]} type="email" label="Email" placeholder="name@example.com" />
+  <.input field={f[:phone]} type="tel" label="Telefone" placeholder="(xx) x xxxx-xxxx" />
   <:actions>
     <.button>Salvar Fornecedor</.button>
   </:actions>

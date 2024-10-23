@@ -2,9 +2,9 @@
   <.error :if={@changeset.action}>
     Oops, something went wrong! Please check the errors below.
   </.error>
-  <.input field={f[:name]} type="text" label="Nome" />
-  <.input field={f[:description]} type="text" label="Descrição" />
-  <.input field={f[:price]} type="number" label="Preço" step="any" min="0" />
+  <.input field={f[:name]} type="text" label="Nome" placeholder="Digite o nome do produto" />
+  <.input field={f[:description]} type="text" label="Descrição" placeholder="Digite a descrição do produto" />
+  <.input field={f[:price]} type="number" label="Preço" placeholder="Digite o preço do produto" step="any" min="0" />
 
   <.input field={f[:fornecedor_id]}
     type="select" 
