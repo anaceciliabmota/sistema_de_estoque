@@ -51,10 +51,17 @@ defmodule ProjectWeb.ProdutoController do
     end
   end
 
-  def show(conn, %{"id" => id}) do
+  def show(conn, %{"id" => id} = params) do
     produto = Estoque.get_produto!(id)
     |> Project.Repo.preload(:fornecedor)
-    render(conn, :show, produto: produto)
+
+    source = Map.get(params, "source")
+
+    if source == "estoque_baixo" do
+      render(conn, :show_from_movimentacao, produto: produto)
+    else
+      render(conn, :show, produto: produto)
+    end
   end
 
   def edit(conn, %{"id" => id}) do
