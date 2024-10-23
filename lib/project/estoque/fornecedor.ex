@@ -18,5 +18,19 @@ defmodule Project.Estoque.Fornecedor do
     fornecedor
     |> cast(attrs, [:name, :address, :email, :phone])
     |> validate_required([:name, :address, :email, :phone])
+    |> normalize_name()  # Normalizar o nome antes da validação de unicidade
+    |> unique_constraint(:name, name: :unique_fornecedor_name, message: "Já existe um fornecedor com esse nome")
+  end
+
+  defp normalize_name(changeset) do
+    update_change(changeset, :name, &capitalize_name/1)
+  end
+
+  defp capitalize_name(name) do
+    name
+    |> String.downcase()
+    |> String.split(" ")
+    |> Enum.map(&String.capitalize/1)
+    |> Enum.join(" ")
   end
 end

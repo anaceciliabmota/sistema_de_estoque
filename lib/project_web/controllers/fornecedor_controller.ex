@@ -22,7 +22,13 @@ defmodule ProjectWeb.FornecedorController do
         |> redirect(to: ~p"/fornecedores/#{fornecedor}")
 
       {:error, %Ecto.Changeset{} = changeset} ->
-        render(conn, :new, changeset: changeset)
+        if changeset.errors[:name] do
+          conn
+          |> put_flash(:error, "Erro: Já existe um fornecedor com esse nome. Escolha outro nome.")
+          |> render(:new, changeset: changeset)
+        else
+          render(conn, :new, changeset: changeset)
+        end
     end
   end
 
