@@ -20,7 +20,12 @@ defmodule ProjectWeb.MovimentacaoController do
 
   def create(conn, %{"movimentacao" => movimentacao_params}) do
     produto_id = movimentacao_params["produto_id"]
-    quantidade_movimentacao = String.to_integer(movimentacao_params["quantity"])
+    # Usa 0 como valor padrão caso a conversão falhe
+    quantidade_movimentacao =
+      case Integer.parse(movimentacao_params["quantity"]) do
+        {int, _rest} -> int
+        :error -> 0  # Valor default caso falhe a conversão
+      end
     movimento_tipo = movimentacao_params["movement_type"]
 
     produto = Estoque.get_produto!(produto_id)
