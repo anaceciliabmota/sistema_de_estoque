@@ -32,18 +32,16 @@ defmodule ProjectWeb.MovimentacaoController do
         "saida" -> produto.quantity - quantidade_movimentacao
       end
 
-    # Verificar se a movimentação resultará em estoque negativo
+    # Verificar se a movimentação vai resultar em estoque negativo
     if quantidade_ajustada < 0 do
       conn
       |> put_flash(:error, "Erro: Não há estoque suficiente para esta movimentação!")
       |> redirect(to: ~p"/movimentacoes/new")
     else
-      # A verificação de estoque passou, permitir criação
       movimentacao_params = Map.put(movimentacao_params, "date", NaiveDateTime.utc_now())
 
       case Estoque.create_movimentacao(movimentacao_params) do
         {:ok, movimentacao} ->
-          # Atualizar o estoque do produto
           produto
           |> Estoque.update_produto(%{quantity: quantidade_ajustada})
 
